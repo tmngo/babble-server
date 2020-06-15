@@ -61,7 +61,7 @@ for (let i = 0; i < letters.length; i++) {
 }
 
 const dictname = "csw_19_able";
-const filename = "server/word_lists/" + dictname + ".txt";
+const filename = "word_lists/" + dictname + ".txt";
 let dictionaryWords = [];
 
 
