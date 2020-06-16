@@ -203,6 +203,7 @@ let numClients = 0;
 let players = {};
 let rooms = {};
 let deleteTimeout;
+let solution = [];
 
 wss.on('connection', (ws, req) => {
 
@@ -254,7 +255,12 @@ wss.on('connection', (ws, req) => {
 
       case "new-game":
         let puzzle = createNewGame(data);
-        emit(ws, "new-game", puzzle);
+        solution = puzzle.solution;
+        emit(ws, "new-game", puzzle.setup);
+        break;
+
+      case "end-game":
+        emit(ws, "end-game", { solution });
         break;
 
       // case "load-new-game":
@@ -441,16 +447,19 @@ function createNewGame(data) {
   /* Use the DAWG to recursively find all the words on the board. */
   let solutionDictionary = dawg.solve(gridLetters);
   /* Encode the list of valid words as a succinct trie. */
-  let trieData = encodeTrie(Object.keys(solutionDictionary).sort());
+  let solution = Object.keys(solutionDictionary).sort();
+  let trieData = encodeTrie(solution);
 
   console.log("Unique letters: " + uniqueLetters);
   console.log(gridLetters.replace(/ /g, "\n"));
   console.log(`Valid words = ${Object.keys(solutionDictionary).length}.`)
 
   return { 
-    grid: gridLetters, 
-    dictionary: solutionDictionary, 
-    trieData: trieData 
+    solution: solution,
+    setup: {
+      grid: gridLetters,
+      trieData: trieData,
+    }
   }
 }
 
