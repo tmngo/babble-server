@@ -69,6 +69,9 @@ fs.readFile(filename, 'utf8', function(err, data) {
   if (err) throw err;
 
   dictionaryWords = data.toLowerCase().split(/\r\n/);
+  for (let i = 0; i < 10; i++) {
+    console.log(dictionaryWords[i*100])
+  }
   console.log("Dictionary: " + filename);
   console.log("Words in dictionary = " + dictionaryWords.length);
 
