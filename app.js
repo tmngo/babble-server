@@ -322,10 +322,10 @@ wss.on('connection', (ws, req) => {
   });
 
   /* Prevent Heroku server timeout */
-  // setInterval(() => { 
-  //   let time = new Date().toTimeString(); 
-  //   emit(ws, 'time', time)
-  // }, 30000);
+  setInterval(() => { 
+    let time = new Date().toTimeString(); 
+    emit(ws, 'time', time)
+  }, 45000);
 
   /** CLOSE */
   ws.on("close", function() {
